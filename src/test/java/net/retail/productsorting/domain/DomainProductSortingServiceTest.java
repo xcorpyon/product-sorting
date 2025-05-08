@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 
 import net.retail.productsorting.domain.model.Product;
 import net.retail.productsorting.domain.model.Stock;
-import net.retail.productsorting.domain.model.WeighingCriteria;
+import net.retail.productsorting.domain.model.sorting.SortingCriteria;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -38,19 +38,19 @@ class DomainProductSortingServiceTest {
 	@BeforeAll
 	static void setUp() {
 
-		var salesWeighingCriteria = mock(WeighingCriteria.class);
-		when(salesWeighingCriteria.weigh(ArgumentMatchers.any(Product.class)))
+		var salesSortingCriteria = mock(SortingCriteria.class);
+		when(salesSortingCriteria.weigh(ArgumentMatchers.any(Product.class)))
 				.then(invocation -> {
 						Product product = invocation.getArgument(0);
 						return (product.getId() == EXPECTED_FIRST_PRODUCT_ID) ? 5 : 100;
 				});
 
-		var stockWeighingCriteria = mock(WeighingCriteria.class);
-		when(stockWeighingCriteria.weigh(any()))
+		var stockSortingCriteria = mock(SortingCriteria.class);
+		when(stockSortingCriteria.weigh(any()))
 				.thenReturn(1);
 
 		underTest = new DomainProductSortingService(
-				List.of(salesWeighingCriteria, stockWeighingCriteria));
+				List.of(salesSortingCriteria, stockSortingCriteria));
 	}
 
 	@Test

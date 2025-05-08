@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import net.retail.productsorting.domain.model.AssignedWeight;
 import net.retail.productsorting.domain.model.Product;
 import net.retail.productsorting.domain.model.WeighedProduct;
-import net.retail.productsorting.domain.model.WeighingCriteria;
+import net.retail.productsorting.domain.model.sorting.SortingCriteria;
 import net.retail.productsorting.domain.port.in.ProductSortingService;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ public class DomainProductSortingService implements ProductSortingService {
 							.mapToInt(AssignedWeight::value)
 							.sum());
 
-	private final List<WeighingCriteria> weighingCriterias;
+	private final List<SortingCriteria> sortingCriteria;
 
 	@Override
 	public List<WeighedProduct> sort(List<Product> products) {
@@ -42,10 +42,10 @@ public class DomainProductSortingService implements ProductSortingService {
 	}
 
 	private List<AssignedWeight> buildAssignedWeightsOf(Product product) {
-		return weighingCriterias.stream()
-				.map(weighingCriteria -> new AssignedWeight(
-						weighingCriteria.weigh(product),
-						weighingCriteria.getName()
+		return sortingCriteria.stream()
+				.map(sortingCriteria -> new AssignedWeight(
+						sortingCriteria.weigh(product),
+						sortingCriteria.getName()
 				))
 				.toList();
 	}

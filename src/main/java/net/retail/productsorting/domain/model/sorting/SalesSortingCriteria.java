@@ -1,9 +1,10 @@
-package net.retail.productsorting.domain.model;
+package net.retail.productsorting.domain.model.sorting;
 
+import net.retail.productsorting.domain.model.Product;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SalesWeighingCriteria implements WeighingCriteria {
+public class SalesSortingCriteria implements SortingCriteria {
 
 	@Override
 	public String getName() {

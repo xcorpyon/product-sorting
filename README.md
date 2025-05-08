@@ -2,7 +2,7 @@
 
 Rest API based on a mavenized java backend project.
 
-Provides an algorithm to sort a list of products based on currently 2 weighing criteria:
+Provides an algorithm to sort a list of products based on currently 2 sorting criteria:
 - adds the sales of each product
 - adds all the stock items of each product
 
