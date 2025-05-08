@@ -13,6 +13,6 @@ public class SalesSortingCriteria implements SortingCriteria<Product> {
 
 	@Override
 	public int weigh(Product product) {
-		return product.getSales();
+		return product.sales();
 	}
 }

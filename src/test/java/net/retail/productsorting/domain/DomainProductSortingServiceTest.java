@@ -20,18 +20,8 @@ class DomainProductSortingServiceTest {
 	static final int EXPECTED_FIRST_PRODUCT_ID = 2;
 
 	static final List<Product> SAMPLE_PRODUCTS = List.of(
-			Product.builder()
-					.id(ORIGINAL_FIRST_PRODUCT_ID)
-					.name("original first product")
-					.sales(100)
-					.stock(new Stock(4, 9, 0))
-					.build(),
-			Product.builder()
-					.id(EXPECTED_FIRST_PRODUCT_ID)
-					.name("expected first product")
-					.sales(50)
-					.stock(new Stock(35, 9, 9))
-					.build());
+			new Product(ORIGINAL_FIRST_PRODUCT_ID, "original first product", 100, new Stock(4, 9, 0)),
+			new Product(EXPECTED_FIRST_PRODUCT_ID, "expected first product", 50, new Stock(35, 9, 9)));
 
 	static DomainProductSortingService underTest;
 
@@ -42,7 +32,7 @@ class DomainProductSortingServiceTest {
 		when(salesSortingCriteria.weigh(ArgumentMatchers.any(Product.class)))
 				.then(invocation -> {
 						Product product = invocation.getArgument(0);
-						return (product.getId() == EXPECTED_FIRST_PRODUCT_ID) ? 5 : 100;
+						return (product.id() == EXPECTED_FIRST_PRODUCT_ID) ? 5 : 100;
 				});
 
 		var stockSortingCriteria = mock(SortingCriteria.class);
@@ -56,11 +46,11 @@ class DomainProductSortingServiceTest {
 	@Test
 	void givenTwoProducts_whenSorted_thenItReturnsTheBestSellingFirst() {
 
-		var actualWeighedProducts = underTest.sort(SAMPLE_PRODUCTS);
+		var actualRecords = underTest.sort(SAMPLE_PRODUCTS);
 
-		assertThat(actualWeighedProducts)
+		assertThat(actualRecords)
 				.hasSize(2)
-				.first().satisfies(product ->
-						assertThat(product.getId()).isEqualTo(EXPECTED_FIRST_PRODUCT_ID));
+				.first().satisfies(record ->
+						assertThat(record.data().id()).isEqualTo(EXPECTED_FIRST_PRODUCT_ID));
 	}
 }

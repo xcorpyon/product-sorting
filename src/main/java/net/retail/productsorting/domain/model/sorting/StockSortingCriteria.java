@@ -13,7 +13,7 @@ public class StockSortingCriteria implements SortingCriteria<Product> {
 
 	@Override
 	public int weigh(Product product) {
-		var stock = product.getStock();
+		var stock = product.stock();
 		return stock.s() + stock.m() + stock.l();
 	}
 }
