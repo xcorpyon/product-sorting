@@ -4,7 +4,7 @@ import net.retail.productsorting.domain.model.Product;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SalesSortingCriteria implements SortingCriteria {
+public class SalesSortingCriteria implements SortingCriteria<Product> {
 
 	@Override
 	public String getName() {

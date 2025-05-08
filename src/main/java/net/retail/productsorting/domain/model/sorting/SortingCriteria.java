@@ -2,9 +2,9 @@ package net.retail.productsorting.domain.model.sorting;
 
 import net.retail.productsorting.domain.model.Product;
 
-public interface SortingCriteria {
+public interface SortingCriteria<T> {
 
 	String getName();
 
-	int weigh(Product product);
+	int weigh(T data);
 }
