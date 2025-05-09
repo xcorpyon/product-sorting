@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.toList;
 
 import lombok.RequiredArgsConstructor;
 import net.retail.productsorting.domain.model.sorting.AssignedWeight;
-import net.retail.productsorting.domain.model.Product;
 import net.retail.productsorting.domain.model.sorting.SortedRecord;
 import net.retail.productsorting.domain.model.sorting.SortingCriteria;
 import net.retail.productsorting.domain.port.in.SortingService;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class DomainProductSortingService implements SortingService<Product> {
+public class DomainSortingService<T> implements SortingService<T> {
 
 	private static final Comparator<SortedRecord<?>> ASSIGNED_WEIGHTS_SUM_COMPARATOR =
 			comparingInt(record ->
@@ -24,24 +23,27 @@ public class DomainProductSortingService implements SortingService<Product> {
 							.mapToInt(AssignedWeight::value)
 							.sum());
 
-	private final List<SortingCriteria<Product>> sortingCriteria;
-
 	@Override
-	public List<SortedRecord<Product>> sort(List<Product> products) {
+	public List<SortedRecord<T>> sort(
+			List<T> records,
+			List<SortingCriteria<T>> sortingCriteria) {
 
-		return products.stream()
-				.map(product -> new SortedRecord<Product>(
-						product,
-						buildAssignedWeightsOf(product)))
+		return records.stream()
+				.map(record -> new SortedRecord<T>(
+						record,
+						buildAssignedWeightsOf(record, sortingCriteria)))
 				.sorted(ASSIGNED_WEIGHTS_SUM_COMPARATOR)
 				.collect(toList());
 	}
 
-	private List<AssignedWeight> buildAssignedWeightsOf(Product product) {
+	private List<AssignedWeight> buildAssignedWeightsOf(
+			T record,
+			List<SortingCriteria<T>> sortingCriteria) {
+
 		return sortingCriteria.stream()
-				.map(sortingCriteria -> new AssignedWeight(
-						sortingCriteria.weigh(product),
-						sortingCriteria.getName()
+				.map(criteria -> new AssignedWeight(
+						criteria.weigh(record),
+						criteria.getName()
 				))
 				.toList();
 	}
