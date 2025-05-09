@@ -6,7 +6,7 @@ import static java.util.stream.Collectors.toList;
 import lombok.RequiredArgsConstructor;
 import net.retail.productsorting.domain.model.sorting.AssignedWeight;
 import net.retail.productsorting.domain.model.Product;
-import net.retail.productsorting.domain.model.sorting.SortableRecord;
+import net.retail.productsorting.domain.model.sorting.SortedRecord;
 import net.retail.productsorting.domain.model.sorting.SortingCriteria;
 import net.retail.productsorting.domain.port.in.SortingService;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DomainProductSortingService implements SortingService<Product> {
 
-	private static final Comparator<SortableRecord<?>> ASSIGNED_WEIGHTS_SUM_COMPARATOR =
+	private static final Comparator<SortedRecord<?>> ASSIGNED_WEIGHTS_SUM_COMPARATOR =
 			comparingInt(record ->
 					record.assignedWeights().stream()
 							.mapToInt(AssignedWeight::value)
@@ -27,10 +27,10 @@ public class DomainProductSortingService implements SortingService<Product> {
 	private final List<SortingCriteria<Product>> sortingCriteria;
 
 	@Override
-	public List<SortableRecord<Product>> sort(List<Product> products) {
+	public List<SortedRecord<Product>> sort(List<Product> products) {
 
 		return products.stream()
-				.map(product -> new SortableRecord<Product>(
+				.map(product -> new SortedRecord<Product>(
 						product,
 						buildAssignedWeightsOf(product)))
 				.sorted(ASSIGNED_WEIGHTS_SUM_COMPARATOR)

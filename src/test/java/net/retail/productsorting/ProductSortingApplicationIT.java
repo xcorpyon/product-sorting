@@ -28,6 +28,6 @@ class ProductSortingApplicationIT {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].data.name", is("SLOGAN T-SHIRT")));
+				.andExpect(jsonPath("$[0].name", is("SLOGAN T-SHIRT")));
 	}
 }

@@ -2,7 +2,7 @@ package net.retail.productsorting.application;
 
 import lombok.RequiredArgsConstructor;
 import net.retail.productsorting.domain.model.Product;
-import net.retail.productsorting.domain.model.sorting.SortableRecord;
+import net.retail.productsorting.domain.model.sorting.SortedRecord;
 import net.retail.productsorting.domain.port.in.SortingService;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class ProductSortingAlgorithm {
 
 	private final SortingService<Product> productSortingService;
 
-	public List<SortableRecord<Product>> sortProducts() {
+	public List<SortedRecord<Product>> sortProducts() {
 		var products = ProductsProvider.get();
 		return productSortingService.sort(products);
 	}
