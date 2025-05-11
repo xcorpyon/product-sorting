@@ -9,7 +9,8 @@ Provides an algorithm to sort a list of products based on currently 2 sorting cr
 Exposed endpoint: `GET /`
 
 ## External libraries used
-- Spring
+- Spring Boot
+- Spring MVC
 - Lombok
 - MapStruct
 
@@ -25,7 +26,7 @@ Exposed endpoint: `GET /`
 mvn verify
 ```
 
-## Instructions to run the application taking advantage of Spring Boot
+## Instructions to run the application
 ```
 mvn spring-boot:run
 ```

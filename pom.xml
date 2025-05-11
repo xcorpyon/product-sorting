@@ -86,7 +86,25 @@
 			</plugin>
 
 			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<!-- configuration useful to avoid some warning lines -->
+				<configuration>
+					<argLine>
+						-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+						-Xshare:off
+					</argLine>
+				</configuration>
+			</plugin>
+
+			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
+				<!-- configuration useful to avoid some warning lines -->
+				<configuration>
+					<argLine>
+						-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+						-Xshare:off
+					</argLine>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
