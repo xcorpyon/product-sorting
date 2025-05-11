@@ -1,7 +1,7 @@
 package net.retail.productsorting.infraestructure.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.retail.productsorting.application.ProductSortingAlgorithm;
+import net.retail.productsorting.application.SortProducts;
 import net.retail.productsorting.domain.model.Product;
 import net.retail.productsorting.domain.model.sorting.SalesSortingCriteria;
 import net.retail.productsorting.domain.model.sorting.SortingCriteria;
@@ -10,6 +10,7 @@ import net.retail.productsorting.infraestructure.controller.dto.ProductResponse;
 import net.retail.productsorting.infraestructure.controller.mapper.ControllerSortedRecordMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 @RestController
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductSortingController {
 
@@ -25,7 +27,7 @@ public class ProductSortingController {
 	private static final String UNIT_SALES_SORTING_CRITERIA = "US";
 	private static final String STOCK_RATIO_SORTING_CRITERIA = "SR";
 
-	private final ProductSortingAlgorithm productSortingAlgorithm;
+	private final SortProducts sortProducts;
 
 	private final ControllerSortedRecordMapper sortedRecordMapper;
 
@@ -37,7 +39,9 @@ public class ProductSortingController {
 					List<String> sortingCriteriaParams) {
 
 		var sortingCriteria = buildSortingCriteria(sortingCriteriaParams);
-		var sortedRecords = productSortingAlgorithm.sortProducts(sortingCriteria);
+		var products = ProductsQueryParamRetriever.retrieve();
+
+		var sortedRecords = sortProducts.sort(products, sortingCriteria);
 		var sortedProducts = sortedRecordMapper.toProductResponse(sortedRecords);
 		return ResponseEntity.ok().body(sortedProducts);
 	}

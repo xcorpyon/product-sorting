@@ -6,7 +6,7 @@ Provides an algorithm to sort a list of products based on currently 2 sorting cr
 - unit sales: multiply unit sales of each product by the request parameter indicated with 'US'
 - stock ratio: multiply sizes available of each product by the request parameter indicated with 'SR'
 
-Exposed endpoint: `GET /`
+Exposed endpoint: `GET /products`
 
 ## External libraries used
 - Spring Boot
@@ -15,9 +15,9 @@ Exposed endpoint: `GET /`
 - MapStruct
 
 ## Additional considerations about the project
-- It is designed using hexagonal arquitecture.
+- It is designed using hexagonal architecture.
 - It is prepared to sort whatever item, not just products.
-- It contains an advice to handle bad requests (related to request params).
+- It contains an @Advice to handle bad requests (related to request params).
 - It uses immutable objects broadly.
 - It contains 1 unit test and 1 integration test.
 
@@ -33,5 +33,5 @@ mvn spring-boot:run
 
 ## Example of testing the API from command line
 ```
-curl --request GET 'http://localhost:8080/?sortingCriteriaWeight=SR-1000&sortingCriteriaWeight=US-50' | jq
+curl --request GET 'http://localhost:8080/products?sortingCriteriaWeight=SR-1000&sortingCriteriaWeight=US-50' | jq
 ```

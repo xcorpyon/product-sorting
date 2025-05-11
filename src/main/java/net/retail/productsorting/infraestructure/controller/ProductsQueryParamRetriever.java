@@ -1,4 +1,4 @@
-package net.retail.productsorting.application;
+package net.retail.productsorting.infraestructure.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import net.retail.productsorting.domain.model.Product;
@@ -7,9 +7,9 @@ import net.retail.productsorting.domain.model.Stock;
 import java.util.List;
 
 @Slf4j
-public class ProductsProvider {
+public class ProductsQueryParamRetriever {
 
-	public static List<Product> get() {
+	public static List<Product> retrieve() {
 		var products = List.of(
 				new Product(1, "V-NECH BASIC SHIRT", 100, new Stock(4, 9, 0)),
 				new Product(2, "CONTRASTING FABRIC T-SHIRT", 50, new Stock(35, 9, 9)),
@@ -19,7 +19,7 @@ public class ProductsProvider {
 				new Product(6, "SLOGAN T-SHIRT", 20, new Stock(9, 2, 5))
 		);
 
-		log.debug("products provided: {}", products);
+		log.debug("products retrieved: {}", products);
 
 		return products;
 	}

@@ -11,14 +11,14 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ProductSortingAlgorithm {
+public class SortProducts {
 
 	private final SortingService<Product> sortingService;
 
-	public List<SortedRecord<Product>> sortProducts(
+	public List<SortedRecord<Product>> sort(
+			List<Product> products,
 			List<SortingCriteria<Product>> sortingCriteria) {
 
-		var products = ProductsProvider.get();
 		return sortingService.sort(products, sortingCriteria);
 	}
 }

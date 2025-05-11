@@ -24,7 +24,7 @@ class ProductSortingApplicationIT {
 	@Test
 	@SneakyThrows
 	void whenSortProducts_thenTheLessWeighedAppearsFirst() {
-		mvc.perform(get("/?sortingCriteriaWeight=SR-1000&sortingCriteriaWeight=US-50")
+		mvc.perform(get("/products?sortingCriteriaWeight=SR-1000&sortingCriteriaWeight=US-50")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
