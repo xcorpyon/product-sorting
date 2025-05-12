@@ -12,7 +12,7 @@ public class SalesSortingCriteria implements SortingCriteria<Product> {
 
 	@Override
 	public String getName() {
-		return "unit sales";
+		return "units sold";
 	}
 
 	@Override

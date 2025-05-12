@@ -3,8 +3,8 @@
 Rest API based on a mavenized java backend project.
 
 Provides an algorithm to sort a list of products based on currently 2 sorting criteria:
-- unit sales: multiply unit sales of each product by the request parameter indicated with 'US'
-- stock ratio: multiply sizes available of each product by the request parameter indicated with 'SR'
+- units sold: multiply units sold of each product by the request parameter indicated by 'US'
+- stock ratio: multiply sizes available of each product by the request parameter indicated by 'SR'
 
 Exposed endpoint: `GET /products`
 

@@ -1,5 +1,7 @@
 package net.retail.productsorting.infraestructure.controller;
 
+import static java.lang.Integer.parseInt;
+
 import lombok.RequiredArgsConstructor;
 import net.retail.productsorting.application.SortProducts;
 import net.retail.productsorting.domain.model.Product;
@@ -24,7 +26,7 @@ import java.util.regex.Pattern;
 public class ProductSortingController {
 
 	private static final String SORTING_CRITERIA_PARAMETER = "sortingCriteriaWeight";
-	private static final String UNIT_SALES_SORTING_CRITERIA = "US";
+	private static final String UNITS_SOLD_SORTING_CRITERIA = "US";
 	private static final String STOCK_RATIO_SORTING_CRITERIA = "SR";
 
 	private final SortProducts sortProducts;
@@ -54,7 +56,7 @@ public class ProductSortingController {
 		}
 
 		var sortingCriteria = sortingCriteriaParams.stream()
-				.map(convertToSortingCriteria())
+				.map(toSortingCriteria())
 				.toList();
 
 		if (sortingCriteria.get(0).getName().equals(
@@ -65,22 +67,22 @@ public class ProductSortingController {
 		return sortingCriteria;
 	}
 
-	private Function<String, SortingCriteria<Product>> convertToSortingCriteria() {
+	private Function<String, SortingCriteria<Product>> toSortingCriteria() {
 		return param -> {
-				var paramChunk = param.split("-");
-				if (paramChunk.length != 2) {
+				var paramPieces = param.split("-");
+				if (paramPieces.length != 2) {
 					throw new InvalidRequestException(ERROR_MESSAGES.CRITERIA_PARAMETER_NOT_FORMATTED);
 				}
-				var criteriaCode = paramChunk[0];
-				var criteriaValue = paramChunk[1];
+				var criteriaCode = paramPieces[0];
+				var criteriaValue = paramPieces[1];
 				if (! isNumeric(criteriaValue)) {
 					throw new InvalidRequestException(ERROR_MESSAGES.CRITERIA_VALUE_NOT_NUMERIC);
 				}
 				return switch(criteriaCode) {
-					case UNIT_SALES_SORTING_CRITERIA ->
-							new SalesSortingCriteria(Integer.parseInt(criteriaValue));
+					case UNITS_SOLD_SORTING_CRITERIA ->
+							new SalesSortingCriteria(parseInt(criteriaValue));
 					case STOCK_RATIO_SORTING_CRITERIA ->
-							new StockSortingCriteria(Integer.parseInt(criteriaValue));
+							new StockSortingCriteria(parseInt(criteriaValue));
 					default ->
 							throw new InvalidRequestException(ERROR_MESSAGES.CRITERIA_CODE_NOT_CORRECT);
 				};
@@ -106,7 +108,7 @@ public class ProductSortingController {
 		private static final String CRITERIA_CODE_NOT_CORRECT =
 				  "'" + SORTING_CRITERIA_PARAMETER + "' parameter criteria must be specified"
 				+ " in 'XX-#' format, where 'XX' is the criteria and and should be one of "
-				+ "'" + UNIT_SALES_SORTING_CRITERIA + "' or '" + STOCK_RATIO_SORTING_CRITERIA + "'";
+				+ "'" + UNITS_SOLD_SORTING_CRITERIA + "' or '" + STOCK_RATIO_SORTING_CRITERIA + "'";
 		private static final String CRITERIA_CODES_ARE_EQUAL =
 				"'" + SORTING_CRITERIA_PARAMETER + "' parameters must be different";
 	}
