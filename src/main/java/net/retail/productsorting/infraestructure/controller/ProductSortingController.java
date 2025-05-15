@@ -3,11 +3,11 @@ package net.retail.productsorting.infraestructure.controller;
 import static java.lang.Integer.parseInt;
 
 import lombok.RequiredArgsConstructor;
-import net.retail.productsorting.application.SortProducts;
 import net.retail.productsorting.domain.model.Product;
 import net.retail.productsorting.domain.model.sorting.SalesSortingCriteria;
 import net.retail.productsorting.domain.model.sorting.SortingCriteria;
 import net.retail.productsorting.domain.model.sorting.StockSortingCriteria;
+import net.retail.productsorting.domain.port.in.SortingService;
 import net.retail.productsorting.infraestructure.controller.dto.ProductResponse;
 import net.retail.productsorting.infraestructure.controller.mapper.ControllerSortedRecordMapper;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class ProductSortingController {
 	private static final String UNITS_SOLD_SORTING_CRITERIA = "US";
 	private static final String STOCK_RATIO_SORTING_CRITERIA = "SR";
 
-	private final SortProducts sortProducts;
+	private final SortingService<Product> sortingService;
 
 	private final ControllerSortedRecordMapper sortedRecordMapper;
 
@@ -43,7 +43,7 @@ public class ProductSortingController {
 		var sortingCriteria = buildSortingCriteria(sortingCriteriaParams);
 		var products = ProductsQueryParamRetriever.retrieve();
 
-		var sortedRecords = sortProducts.sort(products, sortingCriteria);
+		var sortedRecords = sortingService.sort(products, sortingCriteria);
 		var sortedProducts = sortedRecordMapper.toProductResponse(sortedRecords);
 		return ResponseEntity.ok().body(sortedProducts);
 	}
